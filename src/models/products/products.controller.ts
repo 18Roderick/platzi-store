@@ -1,15 +1,28 @@
-import { Body, Controller, Get, Param, Post, Query, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Query,
+  Put,
+  Delete,
+} from '@nestjs/common';
+
+import { ProductsService } from '../../services/products.service';
 
 @Controller('products')
 export class ProductsController {
+  constructor(private productsService: ProductsService) {}
+
   @Get('filter')
   getProductFilter() {
-    return `yo soy un filter`;
+    return {};
   }
 
   @Get(':productId')
-  getProduct(@Param('productId') productId: string) {
-    return `prdocuto ${productId}`;
+  getProduct(@Param('productId') productId: number) {
+    return this.productsService.findOne(productId);
   }
 
   @Get()
@@ -18,23 +31,21 @@ export class ProductsController {
     @Query('offset') offset = 0,
     @Query('brand') brand: string,
   ) {
-    return { limit, offset, brand };
+    return this.productsService.findAll();
   }
 
   @Post()
-  get(@Body() payload: any) {
-    return {
-      msg: 'Create Product',
-      payload,
-    };
+  create(@Body() payload: any) {
+    return this.productsService.create(payload);
   }
 
   @Put(':id')
   update(@Param('id') id: number, @Body() payload: any) {
-    return {
-      msg: 'Create Product',
-      id,
-      payload,
-    };
+    return this.productsService.update(id, payload);
+  }
+
+  @Delete(':id')
+  delete(@Param('id') id: number) {
+    return this.productsService.delete(id);
   }
 }
