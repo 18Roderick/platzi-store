@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 
 import { ProductsService } from '../../services/products.service';
-
+import { ParseIntPipe } from '../../common/parse-int.pipe';
 @Controller('products')
 export class ProductsController {
   constructor(private productsService: ProductsService) {}
@@ -21,7 +21,7 @@ export class ProductsController {
   }
 
   @Get(':productId')
-  getProduct(@Param('productId') productId: number) {
+  getProduct(@Param('productId', ParseIntPipe) productId: number) {
     return this.productsService.findOne(productId);
   }
 
