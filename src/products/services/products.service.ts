@@ -34,7 +34,6 @@ export class ProductsService {
   }
 
   create(product: CreateProductDto) {
-    console.log(product);
     this.idIndex++;
     const newProduct = {
       id: this.idIndex,
@@ -47,14 +46,21 @@ export class ProductsService {
   }
 
   update(id: number, product: UpdateProductDto) {
-    if (!this.products[id]) return null;
+    try {
+      const prod = this.findOne(id);
+      const updatedProduct = {
+        ...prod,
+        ...product,
+      };
+      this.products.map((p) => {
+        if (prod.id !== p.id) return prod;
+        else return updatedProduct;
+      });
 
-    this.products[id] = {
-      ...this.products[id],
-      ...product,
-    };
-
-    return this.products[id];
+      return updatedProduct;
+    } catch (error) {
+      throw error;
+    }
   }
 
   delete(id: number) {

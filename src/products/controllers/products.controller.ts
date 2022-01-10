@@ -37,6 +37,7 @@ export class ProductsController {
 
   @Post()
   create(@Body() payload: CreateProductDto) {
+    console.log('Creando Producto');
     return this.productsService.create(payload);
   }
 
@@ -45,6 +46,8 @@ export class ProductsController {
     @Param('id', ParseIntPipe) id: number,
     @Body() payload: UpdateProductDto,
   ) {
+    const product = this.productsService.findOne(id);
+
     return this.productsService.update(id, payload);
   }
 
