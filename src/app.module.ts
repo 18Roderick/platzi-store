@@ -1,20 +1,32 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ProductsController } from './models/products/products.controller';
-import { CategoriesController } from './models/categories/categories.controller';
-import { OrdersController } from './models/orders/orders.controller';
-import { CustomersController } from './models/customers/customers.controller';
-import { UsersController } from './models/users/users.controller';
-import { BrandsController } from './models/brands/brands.controller';
-import { ProductsService } from './services/products/products.service';
-import { CategoriesService } from './services/categories/categories.service';
-import { BrandsService } from './services/brands/brands.service';
-import { UsersService } from './services/users/users.service';
-import { CustomersService } from './services/customers/customers.service';
+import { ProductsController } from './products/controllers/products.controller';
+import { CategoriesController } from './categories/controllers/categories.controller';
+import { OrdersController } from '../orders/controllers/orders.controller';
+import { CustomersController } from './customers/controllers/customers.controller';
+import { UsersController } from './users/controllers/users.controller';
+import { BrandsController } from './brands/controllers/brands.controller';
+import { ProductsService } from './products/services/products.service';
+import { CategoriesService } from './categories/services/categories.service';
+import { BrandsService } from './brands/services/brands.service';
+
+import { UsersModule } from './users/users.module';
+import { ProductsModule } from './products/products.module';
+import { CategoriesModule } from './categories/categories.module';
+import { CustomersModule } from './customers/customers.module';
+import { OrdersModule } from '../orders/orders.module';
+import { BrandsModule } from './brands/brands.module';
 
 @Module({
-  imports: [],
+  imports: [
+    UsersModule,
+    ProductsModule,
+    CategoriesModule,
+    CustomersModule,
+    OrdersModule,
+    BrandsModule,
+  ],
   controllers: [
     AppController,
     ProductsController,
@@ -24,6 +36,6 @@ import { CustomersService } from './services/customers/customers.service';
     CustomersController,
     OrdersController,
   ],
-  providers: [AppService, ProductsService, CategoriesService, BrandsService, UsersService, CustomersService],
+  providers: [AppService, ProductsService, CategoriesService, BrandsService],
 })
 export class AppModule {}
