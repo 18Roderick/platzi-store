@@ -37,7 +37,7 @@ export class ProductsController {
 
   @Post()
   create(@Body() payload: CreateProductDto) {
-    console.log('Creando Producto');
+    console.log('Creando Producto hola');
     return this.productsService.create(payload);
   }
 
@@ -53,6 +53,6 @@ export class ProductsController {
 
   @Delete(':id')
   delete(@Param('id') id: number) {
-    return this.productsService.delete(id);
+    return this.productsService.remove(id);
   }
 }
