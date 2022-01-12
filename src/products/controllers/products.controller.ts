@@ -8,10 +8,11 @@ import {
   Put,
   Delete,
 } from '@nestjs/common';
-
+import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { ProductsService } from '../services/products.service';
 import { ParseIntPipe } from '../../common/parse-int.pipe';
 import { CreateProductDto, UpdateProductDto } from '../dtos/products.dto';
+@ApiTags('products')
 @Controller('products')
 export class ProductsController {
   constructor(private productsService: ProductsService) {}
@@ -21,6 +22,7 @@ export class ProductsController {
     return {};
   }
 
+  @ApiOperation({ summary: 'Detalles del Producto' })
   @Get(':productId')
   getProduct(@Param('productId', ParseIntPipe) productId: number) {
     return this.productsService.findOne(productId);

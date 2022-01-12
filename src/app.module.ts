@@ -1,18 +1,37 @@
 import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+
+import * as Joi from 'joi';
+
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
 import { UsersModule } from './users/users.module';
 import { ProductsModule } from './products/products.module';
+import { HttpAxiosModule } from './http-axios/http-axios.module';
+import { DatabaseModule } from './database/database.module';
+import { environments } from './environments';
 
-import * as morgan from 'morgan';
+import config from './config';
+
 @Module({
-  imports: [ProductsModule, UsersModule],
+  imports: [
+    ConfigModule.forRoot({
+      envFilePath: environments[process.env.NODE_ENV] || '.env',
+      load: [config],
+      isGlobal: true,
+      validationSchema: Joi.object({
+        API_KEY: Joi.number().required(),
+        DATABASE_NAME: Joi.string().required(),
+        DATABASE_PORT: Joi.number().required(),
+      }),
+    }),
+    ProductsModule,
+    UsersModule,
+    HttpAxiosModule,
+    DatabaseModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer.apply(morgan('dev'));
-  }
-}
+export class AppModule {}
