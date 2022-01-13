@@ -1,6 +1,6 @@
 import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-
+import { MongoClient } from 'mongodb';
 import * as Joi from 'joi';
 
 import { AppController } from './app.controller';
@@ -14,6 +14,20 @@ import { environments } from './environments';
 
 import config from './config';
 
+// const url = 'mongodb://root:root@127.0.0.1:27017';
+
+// const client = new MongoClient(url);
+
+// async function run() {
+//   await client.connect();
+
+//   const database = client.db('platzi-store');
+//   const taskCollection = database.collection('tasks');
+//   const tasks = await taskCollection.find().toArray();
+//   console.log(tasks);
+// }
+
+// run();
 @Module({
   imports: [
     ConfigModule.forRoot({
